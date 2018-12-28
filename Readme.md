@@ -41,11 +41,11 @@ There are some basic system requirements which need to be setup.
 ### Step by Step
 #### install using .zip file
 Keeping this up to date is a bit of a hassle, but you can [download](https://github.com/COhsrt/scavenger-tools/archive/master.zip) this repository as zip.
-Just type
+Just execute this as root:
 
 ``
-mkdir -p /root/sources		# generate directory for sources if it doesnt exist (as root)
-cd /root/sources		# change to the directory
+mkdir -p /root/sources
+cd /root/sources
 wget https://github.com/COhsrt/scavenger-tools/archive/master.zip
 unzip master.zip
 ``
@@ -54,11 +54,11 @@ to update just call the instructions above again, but your changes may be overwr
 
 #### install using git
 Keeping this up to date is way easier, but your changes may be overwritten.
-Just type:
+Just execute this as root:
 
 ``
-mkdir -p /root/sources		# generate directory for sources if it doesnt exist (as root)
-cd /root/sources		# change to the directory
+mkdir -p /root/sources
+cd /root/sources
 git clone https://github.com/COhsrt/scavenger-tools.git
 
 ``
@@ -111,7 +111,10 @@ To install the service just type those commands, be sure you meet the requiremen
 
 ``
 ln -s /root/sources/scavenger-tools/systemd-config/scavenger.service /lib/systemd/system/scavenger.service
+
 systemctl daemon-reload
+
 systemctl enable scavenger.service
+
 systemctl start scavenger.service
 ``
