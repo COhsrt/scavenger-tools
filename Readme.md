@@ -1,7 +1,10 @@
 # scavenger-tools
 A little toolsuite for stuff all around [scavenger](https://github.com/PoC-Consortium/scavenger).
+
 If you need any help or have suggestions, feel free to open an [issue](https://github.com/COhsrt/scavenger-tools/issues/new).
+
 [Pull Requests](https://github.com/COhsrt/scavenger-tools/compare) are always welcome!
+
 It contains
   -  munin plugins
   -  systemd service config
