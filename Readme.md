@@ -116,7 +116,13 @@ systemctl daemon-reload
 systemctl enable scavenger.service
 systemctl start scavenger.service
 ```
+#### rsyslog config
+As we don't want all the log output from scavenger in /var/log/syslog we will redirect that into different files. Rsyslog will handle logfile and folder creation itself, so we just need to add a symlink and restart the service.
 
+```
+ln -s /root/sources/scavenger-tools/rsyslog-config/scavenger.conf /etc/rsyslog.d/scavenger.conf
+systemctl restart rsyslog.service
+```
 
 
 #### munin plugins
@@ -130,5 +136,14 @@ ln -s /root/sources/scavenger-tools/munin-plugins/scavenger_ /etc/munin/plugins/
 ln -s /root/sources/scavenger-tools/munin-plugins/scavenger_ /etc/munin/plugins/scavenger_speed
 ln -s /root/sources/scavenger-tools/munin-plugins/scavenger_config /etc/munin/plugin-conf.d/scavenger
 # Restarting munin-node
-service munin-node restart
+systemctl restart munin-node.service
+```
+
+### Scripts
+#### restart_if_slow
+This script will restart scavenger.service if scavenger is unusally slow. This tends to happen on less then 1% of the systems but is a nice workaround for people who can't watch their logfiles 24/7.
+Just add to your crontab. You may access it as root using ``crontab -e``.
+
+```
+*/4 * * * * /root/sources/scavenger-tools/scripts/restart_if_slow
 ```

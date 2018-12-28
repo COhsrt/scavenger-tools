@@ -1,0 +1,27 @@
+#!/bin/bash
+# Config
+Log="/tmp/logs/round-finished.log"
+# if scantime is longer then $maxtime seconds, restart scavenger service
+maxtime=35
+
+# Calculated values
+AltLog="${Log}.1"
+maxtimems=$(( ${maxtime} * 1000 ))
+
+function check_for_restart {
+	if [ ${1} -gt ${maxtimems} ]
+	then
+		systemctl restart scavenger.service
+	fi
+}
+
+if [ -f "${Log}" ] && [[ $(tail -n 1 ${Log}) =~ roundtime=([0-9]{5,6})ms ]]
+then
+	check_for_restart ${BASH_REMATCH[1]}
+elif [ -f "${AltLog}" ] && [[ $(tail -n 1 ${Log}) =~ roundtime=([0-9]{5,6})ms ]]
+then
+	check_for_restart ${BASH_REMATCH[1]}
+else
+	echo "No roundtime found!!!!"
+fi
+
