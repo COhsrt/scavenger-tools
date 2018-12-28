@@ -8,7 +8,7 @@ then
 	case $0 in
 	*_roundtime)
 		echo "update_rate 60"
-		echo "graph_title Burstcoin Roundtime"
+		echo "graph_title scavenger roundtime"
 		echo "graph_vlabel seconds"
 		echo "graph_category __BURST__"
 		echo "0.label ${NAME}"
@@ -16,7 +16,7 @@ then
 		;;
 	*_speed)
 		echo "update_rate 60"
-		echo "graph_title Scavenger Speed"
+		echo "graph_title scavenger speed"
 		echo "graph_vlabel MB/s"
 		echo "graph_category __BURST__"
 		echo "0.label ${NAME}"
@@ -24,7 +24,7 @@ then
 		;;
 	*_deadline)
 		echo "update_rate 60"
-		echo "graph_title Burstcoin Deadline submitted"
+		echo "graph_title scavenger deadline accepted"
 		echo "graph_vlabel seconds"
 		echo "graph_category __BURST__"
 		echo "0.label ${NAME}"
@@ -32,7 +32,7 @@ then
 		;;
 	*_scoop)
 		echo "update_rate 60"
-		echo "graph_title Burstcoin Scoop"
+		echo "graph_title scavenger scoop"
 		echo "graph_vlabel 1-4096"
 		echo "graph_category __BURST__"
 		echo "0.label ${NAME}"
