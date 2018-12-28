@@ -1,0 +1,17 @@
+[Unit]
+Description=miner
+After=network.target
+
+[Service]
+WorkingDirectory=/home/miner/scavenger/
+ExecStart=/home/miner/scavenger/scavenger
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=miner
+Nice=-19
+Restart=always
+RestartSec=20
+User=miner
+
+[Install]
+WantedBy=multi-user.target
