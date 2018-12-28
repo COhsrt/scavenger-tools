@@ -120,12 +120,15 @@ systemctl start scavenger.service
 
 
 #### munin plugins
-The munin plugin itself is a single file, which gives different output depending on the filename which is executed. That's why we will just symlink them and kick through munin-node
+The munin plugin itself is a single file, which gives different output depending on the filename which is executed. That's why we will just symlink them and restart munin-node, additionally munin-node needs some rights to read the logfiles (thats another symlink).
 
 ```
+# Linking the plugins
 ln -s /root/sources/scavenger-tools/munin-plugins/scavenger_ /etc/munin/plugins/scavenger_deadline
 ln -s /root/sources/scavenger-tools/munin-plugins/scavenger_ /etc/munin/plugins/scavenger_roundtime
 ln -s /root/sources/scavenger-tools/munin-plugins/scavenger_ /etc/munin/plugins/scavenger_scoop
 ln -s /root/sources/scavenger-tools/munin-plugins/scavenger_ /etc/munin/plugins/scavenger_speed
+ln -s /root/sources/scavenger-tools/munin-plugins/scavenger_config /etc/munin/plugin-conf.d/scavenger
+# Restarting munin-node
 service munin-node restart
 ```
