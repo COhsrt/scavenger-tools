@@ -1,0 +1,104 @@
+#!/bin/bash
+NAME="miner01"
+logdir="/tmp/logs/"
+
+
+if [ "${1}" == "config" ]
+then
+	case $0 in
+	*_roundtime)
+		echo "update_rate 60"
+		echo "graph_title Burstcoin Roundtime"
+		echo "graph_vlabel seconds"
+		echo "graph_category __BURST__"
+		echo "0.label ${NAME}"
+		echo "0.draw AREA"
+		;;
+	*_speed)
+		echo "update_rate 60"
+		echo "graph_title Scavenger Speed"
+		echo "graph_vlabel MB/s"
+		echo "graph_category __BURST__"
+		echo "0.label ${NAME}"
+		echo "0.draw AREA"
+		;;
+	*_deadline)
+		echo "update_rate 60"
+		echo "graph_title Burstcoin Deadline submitted"
+		echo "graph_vlabel seconds"
+		echo "graph_category __BURST__"
+		echo "0.label ${NAME}"
+		echo "0.draw AREA"
+		;;
+	*_scoop)
+		echo "update_rate 60"
+		echo "graph_title Burstcoin Scoop"
+		echo "graph_vlabel 1-4096"
+		echo "graph_category __BURST__"
+		echo "0.label ${NAME}"
+		echo "0.draw AREA"
+		echo "0.max 4096"
+		echo "0.min 1"
+		;;
+	esac
+	exit 0
+fi
+
+
+
+case $0 in
+*_roundtime)
+	Log="${logdir}round-finished.log"
+	AltLog="${Log}.1"
+	if [ -f "${Log}" ] && [[ $(tail -n 1 ${Log}) =~ roundtime=(.*)ms ]]
+	then
+		seconds=$(echo ${BASH_REMATCH[1]} | sed 's/...$/.&/')
+		echo "0.value ${seconds}"
+	elif [ -f "${AltLog}" ] && [[ $(tail -n 1 ${AltLog}) =~ roundtime=(.*)ms ]]
+	then
+		seconds=$(echo ${BASH_REMATCH[1]} | sed 's/...$/.&/')
+		echo "0.value ${seconds}"
+	else
+		echo "0.value 0"
+	fi
+	;;
+*_speed)
+	Log="${logdir}round-finished.log"
+	AltLog="${Log}.1"
+	if [ -f "${Log}" ] && [[ $(tail -n 1 ${Log}) =~ speed=(.*)MiB ]]
+	then
+		echo "0.value ${BASH_REMATCH[1]}"
+	elif [ -f "${AltLog}" ] && [[ $(tail -n 1 ${Log}) =~ speed=(.*)MiB ]]
+	then
+		echo "0.value ${BASH_REMATCH[1]}"
+	else
+		echo "0.value 0"
+	fi
+	;;
+*_deadline)
+	Log="${logdir}deadline-accepted.log"
+	AltLog="${Log}.1"
+	if [ -f "${Log}" ] && [[ $(tail -n 1 ${Log}) =~ deadline=([0-9]{1,10}) ]]
+	then
+		echo "0.value ${BASH_REMATCH[1]}"
+	elif [ -f "${AltLog}" ] && [[ $(tail -n 1 ${AltLog}) =~ deadline=([0-9]{1,10}) ]]
+	then
+		echo "0.value ${BASH_REMATCH[1]}"
+	else
+		echo "0.value NaN"
+	fi
+	;;
+*_scoop)
+	Log="${logdir}new-block.log"
+	AltLog="${Log}.1"
+	if [ -f "${Log}" ] && [[ $(tail -n 1 ${Log}) =~ scoop=([0-9]{1,4}) ]]
+	then
+		echo "0.value ${BASH_REMATCH[1]}"
+	elif [ -f "${AltLog}" ] && [[ $(tail -n 1 ${AltLog}) =~ scoop=([0-9]{1,4}) ]]
+	then
+		echo "0.value ${BASH_REMATCH[1]}"
+	else
+		echo "0.value 0"
+	fi
+	;;
+esac
