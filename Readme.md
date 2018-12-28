@@ -31,12 +31,46 @@ As we don't want to store years of logfiles, there is a template for keeping the
 ## Setup
 There are some basic system requirements which need to be setup.
 - a user which will run scavenger (and has the rights to read the plotfiles!), we will call it "miner"
+- /home/miner/scavenger contains the miner-software and the config.yml
+- /root/sources/scavenger-tools will contain this repository
 - a /tmp which will contain our log-directory
 - systemd as init-system
 - rsyslogd as logging deamon (default on: debian, ubuntu, mint) (please pull-request if you know more distros using rsyslogd)
 - munin as monitoring system (can be installed on the same machine)
 
 ### Step by Step
+#### install using .zip file
+Keeping this up to date is a bit of a hassle, but you can [download](https://github.com/COhsrt/scavenger-tools/archive/master.zip) this repository as zip.
+Just type
+
+``
+mkdir -p /root/sources		# generate directory for sources if it doesnt exist (as root)
+cd /root/sources		# change to the directory
+wget https://github.com/COhsrt/scavenger-tools/archive/master.zip
+unzip master.zip
+``
+
+to update just call the instructions above again, but your changes may be overwritten!
+
+#### install using git
+Keeping this up to date is way easier, but your changes may be overwritten.
+Just type:
+
+``
+mkdir -p /root/sources		# generate directory for sources if it doesnt exist (as root)
+cd /root/sources		# change to the directory
+git clone https://github.com/COhsrt/scavenger-tools.git
+
+``
+
+to update just type:
+
+``
+cd /root/sources/scavenger-tools
+git pull
+``
+
+your changes won't be overwritten.
 #### miner user
 Adding the miner user, without password
 
@@ -50,7 +84,7 @@ To give readrights to the plotfiles mount the drives and type the following
 Sidenote: in our testruns we had 500MB logfiles in 2 months of operating a 200TB rig. This will make 8 Months for 2GB logs. Go check logrotate config aswell!
 Add an entry for the ramdisk(2GB) to /etc/fstab - this is reboot persistent.
 
-````tmpfs           /tmp    tmpfs   nodev,nosuid,size=2G    0   0````
+```tmpfs           /tmp    tmpfs   nodev,nosuid,size=2G    0   0```
 
 To move the current content to the ramdisk and mount the ramdisk execute as root:
 
@@ -63,3 +97,21 @@ this will perform:
 - move contents from /root/tmp to /tmp
 - delete /root/tmp
 
+#### systemd service
+The service does the following stuff for you:
+- restart scavener if it stopped working
+- writes all output to syslog
+- sets nice (system priority to maximum) to -19
+- starts scavenger
+  - as user "miner"
+  - within "/home/miner/scavenger/"
+  - after the network is available
+
+To install the service just type those commands, be sure you meet the requirements mentioned above.
+
+``
+ln -s /root/sources/scavenger-tools/systemd-config/scavenger.service /lib/systemd/system/scavenger.service
+systemctl daemon-reload
+systemctl enable scavenger.service
+systemctl start scavenger.service
+``
