@@ -139,6 +139,7 @@ ln -s /root/sources/scavenger-tools/munin-plugins/scavenger_ /etc/munin/plugins/
 ln -s /root/sources/scavenger-tools/munin-plugins/scavenger_ /etc/munin/plugins/scavenger_roundtime
 ln -s /root/sources/scavenger-tools/munin-plugins/scavenger_ /etc/munin/plugins/scavenger_scoop
 ln -s /root/sources/scavenger-tools/munin-plugins/scavenger_ /etc/munin/plugins/scavenger_speed
+ln -s /root/sources/scavenger-tools/munin-plugins/scavenger_ /etc/munin/plugins/scavenger_drivestats
 ln -s /root/sources/scavenger-tools/munin-plugins/scavenger_config /etc/munin/plugin-conf.d/scavenger
 # Restarting munin-node
 systemctl restart munin-node.service

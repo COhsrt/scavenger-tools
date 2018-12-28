@@ -40,6 +40,20 @@ then
 		echo "0.max 4096"
 		echo "0.min 1"
 		;;
+	*_drivestats)
+		echo "update_rate 60"
+		echo "graph_title scavenger drivestats"
+		echo "graph_vlabel MB/s"
+		echo "graph_category __BURST__"
+		for disk in $(mount |awk '{print $3}' |grep -vE '^/(dev|sys|run|proc|tmp|$)')
+		do
+			id="$(stat ${disk} -c %D)"
+			echo "${id}.label ${disk}"
+			echo "${id}.type DERIVE"
+			echo "${id}.draw STACK"
+			echo "${id}.min 0"
+		done
+		;;
 	esac
 	exit 0
 fi
@@ -101,4 +115,18 @@ case $0 in
 		echo "0.value 0"
 	fi
 	;;
+*_drivestats)
+	# We will only handle the current log, as this searches a lot already
+	Log="${logdir}reader-drive.log"
+	for disk in $(mount |awk '{print $3}' |grep -vE '^/(dev|sys|run|proc|tmp|$)')
+	do
+		id="$(stat ${disk} -c %D)"
+		lastline=$(tail -n 100 ${Log} |grep "${id}" |tail -n 1)
+		if [[ ${lastline} =~ speed=([0-9]{1,5}) ]]
+		then
+			echo "${id}.value ${BASH_REMATCH[1]}"
+		else
+			echo "0.value 0"
+		fi
+	done
 esac
