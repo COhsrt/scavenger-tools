@@ -60,7 +60,6 @@ Just execute this as root:
 mkdir -p /root/sources
 cd /root/sources
 git clone https://github.com/COhsrt/scavenger-tools.git
-
 ``
 
 to update just type:
@@ -88,7 +87,7 @@ Add an entry for the ramdisk(2GB) to /etc/fstab - this is reboot persistent.
 
 To move the current content to the ramdisk and mount the ramdisk execute as root:
 
-``mkdir /root/tmp && mv /tmp/* /root/tmp/ && mount /tmp && mv /root/tmp/* /tmp/ && rm -rf /root/tmp``
+````mkdir /root/tmp && mv /tmp/* /root/tmp/ && mount /tmp && mv /root/tmp/* /tmp/ && rm -rf /root/tmp````
 
 this will perform:
 - add /root/tmp
