@@ -39,22 +39,20 @@ There are some basic system requirements which need to be setup.
 ### Step by Step
 #### miner user
 Adding the miner user, without password
-``
-adduser miner --disabled-password --gecos "miner user"
-``
+
+``adduser miner --disabled-password --gecos "miner user"``
+
 if you ever need to switch to the users context login as root (``sudo -i`` or `su`) and type ``su miner``
 To give readrights to the plotfiles mount the drives and type the following
+
 ``chmod o+r /path/to/drive/*_*_*``
 #### /tmp as ramdisk
 Sidenote: in our testruns we had 500MB logfiles in 2 months of operating a 200TB rig. This will make 8 Months for 2GB logs. Go check logrotate config aswell!
 Add an entry for the ramdisk(2GB) to /etc/fstab - this is reboot persistent.
-```
-tmpfs           /tmp    tmpfs   nodev,nosuid,size=2G    0   0
-```
+```tmpfs           /tmp    tmpfs   nodev,nosuid,size=2G    0   0```
 To move the current content to the ramdisk and mount the ramdisk execute as root:
-``
-mkdir /root/tmp && mv /tmp/* /root/tmp/ && mount /tmp && mv /root/tmp/* /tmp/ && rm -rf /root/tmp
-``
+
+``mkdir /root/tmp && mv /tmp/* /root/tmp/ && mount /tmp && mv /root/tmp/* /tmp/ && rm -rf /root/tmp``
 this will perform:
 - add /root/tmp
 - move contents from /tmp to /root/tmp
