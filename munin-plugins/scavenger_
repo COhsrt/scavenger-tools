@@ -49,7 +49,7 @@ then
 		do
 			id="$(stat ${disk} -c %D)"
 			echo "${id}.label ${disk}"
-			echo "${id}.type DERIVE"
+			echo "${id}.type ABSOLUTE"
 			echo "${id}.draw STACK"
 			echo "${id}.min 0"
 		done
