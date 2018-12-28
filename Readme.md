@@ -31,7 +31,7 @@ As we don't want to store years of logfiles, there is a template for keeping the
 ## Setup
 There are some basic system requirements which need to be setup.
 - a user which will run scavenger (and has the rights to read the plotfiles!), we will call it "miner"
-- /home/miner/scavenger contains the miner-software and the config.yml
+- /home/miner/scavenger contains the miner-software and the config.yaml
 - /root/sources/scavenger-tools will contain this repository
 - a /tmp which will contain our log-directory
 - systemd as init-system
@@ -146,4 +146,18 @@ Just add to your crontab. You may access it as root using ``crontab -e``.
 
 ```
 */4 * * * * /root/sources/scavenger-tools/scripts/restart_if_slow
+```
+
+#### build_scavenger.sh
+This script will build and install scavenger in /home/miner/scavenger. You'll have to edit the config.yaml manually. Be sure you add ``console_log_pattern: "{M} {m}{n}"`` to the config.
+This script will accept the following command switches: 
+
+```
+Usage: ./build_scavenger.sh [-h] [-g] [-c|-n] [-d] 
+ -c = cpu support (SIMD)
+ -n = arm support (neon)
+ -g = gpu support (OPENCL)
+ -d = debug build
+ -h = this text aka help
+
 ```
