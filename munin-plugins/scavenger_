@@ -45,13 +45,12 @@ then
 		echo "graph_title scavenger drivestats"
 		echo "graph_vlabel MB/s"
 		echo "graph_category __BURST__"
+		x=0
 		for disk in $(mount |awk '{print $3}' |grep -vE '^/(dev|sys|run|proc|tmp|$)')
 		do
 			id="$(stat ${disk} -c %D)"
 			echo "${id}.label ${disk}"
-			echo "${id}.type ABSOLUTE"
-			echo "${id}.draw STACK"
-			echo "${id}.min 0"
+			echo "${id}.draw AREASTACK"
 		done
 		;;
 	esac
