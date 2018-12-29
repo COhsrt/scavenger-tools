@@ -129,6 +129,12 @@ ln -s /root/sources/scavenger-tools/rsyslog-config/scavenger.conf /etc/rsyslog.d
 systemctl restart rsyslog.service
 ```
 
+#### logrotate config
+To keep the logs little in size, theres some logrotate config, you can install it by executing:
+
+```
+ln -s /root/sources/scavenger-tools/logrotate-config/scavenger /etc/logrotate.d/scavenger
+```
 
 #### munin plugins
 The munin plugin itself is a single file, which gives different output depending on the filename which is executed. That's why we will just symlink them and restart munin-node, additionally munin-node needs some rights to read the logfiles (thats another symlink).

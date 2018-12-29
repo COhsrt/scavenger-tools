@@ -1,0 +1,11 @@
+/tmp/logs/*.log {
+    daily
+    rotate 7
+    compress
+    delaycompress
+    missingok
+    postrotate
+	service rsyslog rotate >/dev/null 2>&1 || true
+    endscript
+    create 0640 root adm
+}
